@@ -1,5 +1,6 @@
 package com.arkan.aresto.presentation.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.arkan.aresto.data.repository.CategoryRepositoryImpl
 import com.arkan.aresto.data.repository.ProductRepository
 import com.arkan.aresto.data.repository.ProductRepositoryImpl
 import com.arkan.aresto.databinding.FragmentHomeBinding
+import com.arkan.aresto.presentation.detailproduct.DetailProductActivity
 import com.arkan.aresto.utils.GenericViewModelFactory
 
 class HomeFragment : Fragment() {
@@ -96,9 +98,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun startActivity(item: Product) {
-//        val intent = Intent(activity, DetailProductActivity::class.java)
-//        intent.putExtra(DetailProductActivity.EXTRAS_ITEM_ACT, item)
-//        startActivity(intent)
+        val intent = Intent(activity, DetailProductActivity::class.java)
+        intent.putExtra(DetailProductActivity.EXTRAS_ITEM_ACT, item)
+        startActivity(intent)
     }
 
     private fun navigateToDetail(item: Product) {

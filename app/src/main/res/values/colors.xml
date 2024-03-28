@@ -145,4 +145,5 @@
     <color name="md_theme_surfaceContainerHighest_highContrast">#E3E1E9</color>
 
     <color name="transparent">#00000000</color>
+    <color name="gray_spacer">#20000000</color>
 </resources>

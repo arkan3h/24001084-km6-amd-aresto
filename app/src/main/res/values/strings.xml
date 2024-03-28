@@ -21,4 +21,13 @@
     <string name="text_location">Lokasi</string>
     <string name="desc_ic_plus_cart">Menambahkan makanan di keranjang</string>
     <string name="desc_ic_minus_cart">Mengurangi makanan di keranjang</string>
+    <string name="desc_image_profile">Foto Profile</string>
+    <string name="hint_name">Nama</string>
+    <string name="text_name">Arkan Mahardika</string>
+    <string name="text_hint_username">Username</string>
+    <string name="text_username">arkan_3h</string>
+    <string name="text_hint_email">Email</string>
+    <string name="text_email">arkan.mahardika.1@gmail.com</string>
+    <string name="text_edit">Edit</string>
+    <string name="text_profile">Profile</string>
 </resources>

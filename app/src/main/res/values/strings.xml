@@ -15,7 +15,7 @@
     <string name="desc_image_icon_banner">Gambar logo banner</string>
     <string name="text_title_list">List Menu Makanan</string>
     <string name="desc_image_list_grid">Ubah tampilan grid ke list</string>
-    <string name="desc_image_product">Produk Makanan</string>
+    <string name="desc_image_product">Gambar Produk Makanan</string>
     <string name="desc_back_button">tombol kembali</string>
     <string name="desc_icon_location">ikon lokasi</string>
     <string name="text_location">Lokasi</string>
@@ -30,4 +30,15 @@
     <string name="text_email">arkan.mahardika.1@gmail.com</string>
     <string name="text_edit">Edit</string>
     <string name="text_profile">Profile</string>
+    <string name="text_cart">Your Cart</string>
+    <string name="text_hint_notes">Catatan</string>
+    <string name="desc_btn_remove_cart">Hapus produk</string>
+    <string name="text_checkout">Checkout</string>
+    <string name="text_total_price">Total Harga</string>
+    <string name="total_quantity">x%s</string>
+    <string name="add_to_cart">Tambahkan ke Keranjang - %s</string>
+    <string name="text_cart_is_empty">Cart is Empty</string>
+    <string name="loading">Loading</string>
+    <string name="add_to_cart_failed">Gagal Menambahkan ke keranjang</string>
+    <string name="text_add_to_cart_success">Berhasil ditambahkan ke keranjang</string>
 </resources>

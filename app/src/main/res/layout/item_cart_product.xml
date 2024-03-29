@@ -106,7 +106,6 @@
         android:imeOptions="actionDone"
         android:inputType="text"
         android:maxLines="3"
-        android:padding="8dp"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

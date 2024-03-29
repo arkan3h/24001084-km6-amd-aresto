@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_title_delivery_method"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/text_delivery_method"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/rg_delivery_method"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/bg_rounded_empty_48dp"
+            android:checkedButton="@id/rb_delivery"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_delivery_method">
+
+            <RadioButton
+                android:id="@+id/rb_pick_up"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_radio_button_48dp"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/text_pick_up"
+                android:textColor="@color/md_theme_onBackground" />
+
+            <RadioButton
+                android:id="@+id/rb_delivery"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_radio_button_48dp"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/text_delivery"
+                android:textColor="@color/md_theme_onBackground" />
+        </RadioGroup>
+
+        <View
+            android:id="@+id/bg_spacer_delivery"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_gray_spacer"
+            app:layout_constraintTop_toBottomOf="@id/rg_delivery_method"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_cart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:overScrollMode="never"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/bg_spacer_delivery"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_cart_product_order" />
+
+        <View
+            android:id="@+id/bg_spacer_cart"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_gray_spacer"
+            app:layout_constraintTop_toBottomOf="@id/rv_cart"/>
+
+        <TextView
+            android:id="@+id/tv_title_payment_method"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/text_payment_method"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/bg_spacer_cart"/>
+
+        <RadioGroup
+            android:id="@+id/rg_payment_method"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/bg_rounded_empty_48dp"
+            android:checkedButton="@+id/rb_cashless"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_payment_method">
+
+            <RadioButton
+                android:id="@+id/rb_cash"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_radio_button_48dp"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/text_cash"
+                android:textColor="@color/md_theme_onBackground" />
+
+            <RadioButton
+                android:id="@+id/rb_cashless"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bg_radio_button_48dp"
+                android:button="@null"
+                android:gravity="center"
+                android:text="@string/text_e_wallet"
+                android:textColor="@color/md_theme_onBackground" />
+        </RadioGroup>
+
+        <View
+            android:id="@+id/bg_spacer_payment"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_gray_spacer"
+            app:layout_constraintTop_toBottomOf="@id/rg_payment_method"/>
+
+        <TextView
+            android:id="@+id/tv_title_cart_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/text_price_sum"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/bg_spacer_payment"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_shopping_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="8dp"
+            android:overScrollMode="never"
+            android:background="@drawable/bg_btn_rounded_outline"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_cart_summary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_price" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -2,9 +2,9 @@
     <string name="app_name">Aresto</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_tab_home">For You</string>
-    <string name="title_tab_cart">Your Cart</string>
-    <string name="title_tab_profile">Profile</string>
+    <string name="title_tab_home">Home</string>
+    <string name="title_tab_cart">Keranjang</string>
+    <string name="title_tab_profile">Profil</string>
     <string name="text_title_header">Hai Arkan,</string>
     <string name="text_subtitle_header">Mau makan apa hari ini?</string>
     <string name="desc_cart_menu">Menu Keranjang</string>
@@ -29,16 +29,26 @@
     <string name="text_hint_email">Email</string>
     <string name="text_email">arkan.mahardika.1@gmail.com</string>
     <string name="text_edit">Edit</string>
-    <string name="text_profile">Profile</string>
-    <string name="text_cart">Your Cart</string>
+    <string name="text_profile">Profil</string>
+    <string name="text_cart">Keranjang</string>
     <string name="text_hint_notes">Catatan</string>
     <string name="desc_btn_remove_cart">Hapus produk</string>
-    <string name="text_checkout">Checkout</string>
+    <string name="text_checkout">Pesan</string>
     <string name="text_total_price">Total Harga</string>
     <string name="total_quantity">x%s</string>
     <string name="add_to_cart">Tambahkan ke Keranjang - %s</string>
-    <string name="text_cart_is_empty">Cart is Empty</string>
+    <string name="text_cart_is_empty">Keranjang masih kosong</string>
     <string name="loading">Loading</string>
     <string name="add_to_cart_failed">Gagal Menambahkan ke keranjang</string>
     <string name="text_add_to_cart_success">Berhasil ditambahkan ke keranjang</string>
+    <string name="title_checkout">Konfirmasi Pesanan</string>
+    <string name="text_delivery_method">Metode Pengiriman</string>
+    <string name="text_pick_up">Ambil Sendiri</string>
+    <string name="text_delivery">Dikirim</string>
+    <string name="text_payment_method">Metode Pembayaran</string>
+    <string name="text_cash">Tunai</string>
+    <string name="text_e_wallet">Dompet Digital</string>
+    <string name="text_price_sum">Ringkasan Pembayaran</string>
+    <string name="text_back_to_home">Kembali ke Home</string>
+    <string name="text_title_order_success">Pesanan Selesai</string>
 </resources>

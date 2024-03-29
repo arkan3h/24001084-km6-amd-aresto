@@ -24,5 +24,4 @@ class CartDatabaseDataSource(
     override suspend fun deleteCart(cart: CartEntity): Int = dao.deleteCart(cart)
 
     override suspend fun deleteAll() = dao.deleteAll()
-
 }

@@ -66,7 +66,7 @@ class DetailProductActivity : AppCompatActivity() {
     }
 
     private fun setClickListener() {
-        binding.btnProfileBack.setOnClickListener {
+        binding.btnDetailBack.setOnClickListener {
             backNavigation()
         }
         binding.layoutLocation.layoutLocation.setOnClickListener {

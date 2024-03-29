@@ -7,4 +7,35 @@
     android:layout_height="match_parent"
     tools:context=".presentation.checkout.CheckoutActivity">
 
+    <include
+        android:id="@+id/layout_header_checkout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_header_checkout"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <include
+        android:id="@+id/layout_state"
+        layout="@layout/layout_content_state"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/layout_content"
+        layout="@layout/layout_checkout_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/layout_header_checkout"
+        app:layout_constraintBottom_toTopOf="@id/layout_checkout"/>
+
+    <include
+        android:id="@+id/layout_checkout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/layout_checkout_cart"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,8 +12,8 @@ import com.arkan.aresto.R
 import com.arkan.aresto.presentation.home.adapter.CategoryAdapter
 import com.arkan.aresto.presentation.home.adapter.OnItemCLickedListener
 import com.arkan.aresto.presentation.home.adapter.ProductAdapter
-import com.arkan.aresto.data.datasource.DummyCategoryDataSource
-import com.arkan.aresto.data.datasource.DummyProductDataSource
+import com.arkan.aresto.data.datasource.category.DummyCategoryDataSource
+import com.arkan.aresto.data.datasource.product.DummyProductDataSource
 import com.arkan.aresto.data.model.Category
 import com.arkan.aresto.data.model.Product
 import com.arkan.aresto.data.repository.CategoryRepository

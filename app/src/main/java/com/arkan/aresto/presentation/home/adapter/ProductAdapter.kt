@@ -55,8 +55,7 @@ class ProductAdapter(
     override fun getItemCount(): Int  = asyncDataDiffer.currentList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder !is ViewHolderBinder<*>) return
-        (holder as ViewHolderBinder<*>).bind(asyncDataDiffer.currentList[position])
+        (holder as ViewHolderBinder<Product>).bind(asyncDataDiffer.currentList[position])
     }
 }
 

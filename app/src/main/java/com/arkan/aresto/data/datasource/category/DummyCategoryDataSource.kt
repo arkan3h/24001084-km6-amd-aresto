@@ -1,4 +1,4 @@
-package com.arkan.aresto.data.datasource
+package com.arkan.aresto.data.datasource.category
 
 import com.arkan.aresto.data.model.Category
 

@@ -1,6 +1,6 @@
 package com.arkan.aresto.data.repository
 
-import com.arkan.aresto.data.datasource.CategoryDataSource
+import com.arkan.aresto.data.datasource.category.CategoryDataSource
 import com.arkan.aresto.data.model.Category
 
 /**

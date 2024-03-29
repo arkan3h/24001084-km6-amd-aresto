@@ -1,6 +1,6 @@
 package com.arkan.aresto.data.repository
 
-import com.arkan.aresto.data.datasource.ProductDataSource
+import com.arkan.aresto.data.datasource.product.ProductDataSource
 import com.arkan.aresto.data.model.Product
 
 /**

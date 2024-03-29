@@ -3,6 +3,7 @@ package com.arkan.aresto.presentation.detailproduct
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +11,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import coil.load
 import com.arkan.aresto.R
+import com.arkan.aresto.data.datasource.cart.CartDataSource
+import com.arkan.aresto.data.datasource.cart.CartDatabaseDataSource
 import com.arkan.aresto.data.model.Product
+import com.arkan.aresto.data.repository.CartRepository
+import com.arkan.aresto.data.repository.CartRepositoryImpl
+import com.arkan.aresto.data.source.local.database.AppDatabase
 import com.arkan.aresto.databinding.ActivityDetailProductBinding
 import com.arkan.aresto.utils.GenericViewModelFactory
+import com.arkan.aresto.utils.proceedWhen
 import com.arkan.aresto.utils.toIndonesianFormat
 
 class DetailProductActivity : AppCompatActivity() {
@@ -24,8 +31,11 @@ class DetailProductActivity : AppCompatActivity() {
         ActivityDetailProductBinding.inflate(layoutInflater)
     }
     private val viewModel: DetailProductViewModel by viewModels {
+        val db = AppDatabase.getInstance(this)
+        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
+        val rp: CartRepository = CartRepositoryImpl(ds)
         GenericViewModelFactory.create(
-            DetailProductViewModel(intent?.extras)
+            DetailProductViewModel(intent?.extras, rp)
         )
     }
     private lateinit var url: String
@@ -68,6 +78,23 @@ class DetailProductActivity : AppCompatActivity() {
         binding.layoutAddToCart.btnMinusCart.setOnClickListener {
             viewModel.removeQtyProduct()
         }
+        binding.layoutAddToCart.btnAddToCart.setOnClickListener {
+            addProductToCart()
+        }
+    }
+
+    private fun addProductToCart() {
+        viewModel.addToCart().observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(this, getString(R.string.text_add_to_cart_success), Toast.LENGTH_SHORT).show()
+                    finish()
+                },
+                doOnError = {
+                    Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
     }
 
     private fun backNavigation() = onBackPressedDispatcher.onBackPressed()
@@ -80,10 +107,10 @@ class DetailProductActivity : AppCompatActivity() {
 
     private fun setAddToCartData() {
         viewModel.totalPrice.observe(this) {
-            binding.layoutAddToCart.btnAddToCart.text = buildString {
-                append("Tambahkan ke Keranjang - ")
-                append(it.toIndonesianFormat())
-            }
+            binding.layoutAddToCart.btnAddToCart.text = getString(
+                R.string.add_to_cart,
+                it.toIndonesianFormat()
+            )
         }
         viewModel.productQty.observe(this) {
             binding.layoutAddToCart.tvQtyProduct.text = it.toString()

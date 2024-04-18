@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "773159815139",
+    "project_id": "aresto-3f6dd",
+    "storage_bucket": "aresto-3f6dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773159815139:android:d457ec9a227d27b118c2d6",
+        "android_client_info": {
+          "package_name": "com.arkan.aresto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo6qZI2ryr3IVlwBYXrmKRwTRs7kRTimo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

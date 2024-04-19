@@ -29,13 +29,13 @@ import com.arkan.aresto.data.source.network.services.ArestoApiService
 import com.arkan.aresto.databinding.FragmentHomeBinding
 import com.arkan.aresto.presentation.detailproduct.DetailProductActivity
 import com.arkan.aresto.utils.GenericViewModelFactory
+import com.arkan.aresto.utils.UserPreferenceImpl
 import com.arkan.aresto.utils.proceedWhen
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private var categoryAdapter : CategoryAdapter? = null
     private var productAdapter : ProductAdapter? = null
-    private var isUsingGridMode : Boolean = false
     private val viewModel: HomeViewModel by viewModels {
         val service = ArestoApiService.invoke()
         val productDataSource: ProductDataSource = ProductApiDataSource(service)
@@ -49,12 +49,6 @@ class HomeFragment : Fragment() {
             )
         )
     }
-//    private val categoryAdapter: CategoryAdapter by lazy {
-//        CategoryAdapter {
-//            // when category clicked
-//            getProductData(it.slug, isUsingGridMode)
-//        }
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,22 +59,26 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val prefGrid = UserPreferenceImpl(requireContext()).isUsingGrid()
         super.onViewCreated(view, savedInstanceState)
         getCategoryData()
-        getProductData(null, isUsingGridMode)
+        getProductData(null, prefGrid)
+        setButtonImage(prefGrid)
         setClickAction()
     }
 
     private fun setClickAction() {
+        var prefGrid = UserPreferenceImpl(requireContext()).isUsingGrid()
         binding.layoutListMenu.ivListMenu.setOnClickListener {
-            isUsingGridMode = !isUsingGridMode
-            setButtonImage(isUsingGridMode)
-            getProductData(null, isUsingGridMode)
+            prefGrid = !prefGrid
+            setButtonImage(prefGrid)
+            getProductData(null, prefGrid)
+            UserPreferenceImpl(requireContext()).setUsingGridMode(prefGrid)
         }
         categoryAdapter = CategoryAdapter(
             listener = object : OnItemCLickedListener<Category> {
                 override fun onItemClicked(item: Category) {
-                    getProductData(item.name, isUsingGridMode)
+                    getProductData(item.name, prefGrid)
                 }
             }
         )

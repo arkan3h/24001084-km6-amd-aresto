@@ -98,9 +98,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun startActivity(item: Product) {
-        val intent = Intent(activity, DetailProductActivity::class.java)
-        intent.putExtra(DetailProductActivity.EXTRAS_ITEM_ACT, item)
-        startActivity(intent)
+        startActivity(Intent(activity, DetailProductActivity::class.java).putExtra(
+            DetailProductActivity.EXTRAS_ITEM_ACT, item
+        ))
     }
 
     private fun navigateToDetail(item: Product) {

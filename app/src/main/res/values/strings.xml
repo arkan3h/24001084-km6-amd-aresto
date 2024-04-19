@@ -51,4 +51,22 @@
     <string name="text_price_sum">Ringkasan Pembayaran</string>
     <string name="text_back_to_home">Kembali ke Home</string>
     <string name="text_title_order_success">Pesanan Selesai</string>
+    <string name="desc_splash_screen">Gambar Splash Screen</string>
+    <string name="text_hint_password">Password</string>
+    <string name="text_hint_confirm_password">Konfirmasi Password</string>
+    <string name="text_register">Registrasi</string>
+    <string name="text_already_have_an_account_click_here">Sudah memiliki akun? Klik di sini</string>
+    <string name="text_login">Login</string>
+    <string name="text_does_not_have_an_account_click_here">Belum memiliki akun? Klik di sini</string>
+    <string name="text_highlight_login_here">Login di sini</string>
+    <string name="text_error_name_cannot_empty">Nama tidak boleh kosong</string>
+    <string name="text_error_email_empty">Email tidak boleh kosong</string>
+    <string name="text_error_email_invalid">Format email tidak valid</string>
+    <string name="text_error_password_empty">Password tidak boleh kosong</string>
+    <string name="text_error_password_less_than_8_char">Password harus lebih dari 8 karakter</string>
+    <string name="text_password_does_not_match">Password tidak sama</string>
+    <string name="text_logout">Logout</string>
+    <string name="text_logout_confirmation">Apakah anda yakin untuk logout?</string>
+    <string name="text_back">Kembali</string>
+    <string name="text_cancel">Batal</string>
 </resources>

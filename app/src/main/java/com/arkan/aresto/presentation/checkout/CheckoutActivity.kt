@@ -74,8 +74,8 @@ class CheckoutActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_order_success)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val noBtn: Button = dialog.findViewById(R.id.btn_back_to_home)
-        noBtn.setOnClickListener {
+        val backBtn: Button = dialog.findViewById(R.id.btn_back_to_home)
+        backBtn.setOnClickListener {
             dialog.dismiss()
             backToHome()
         }
@@ -83,8 +83,9 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun backToHome() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        })
     }
 
     private fun setupList() {

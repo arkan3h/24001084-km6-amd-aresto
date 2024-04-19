@@ -10,10 +10,6 @@ import com.arkan.aresto.utils.ResultWrapper
 import com.arkan.aresto.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow
 
-/**
-Written with love by Muhammad Hermas Yuda Pamungkas
-Github : https://github.com/hermasyp
- **/
 interface ProductRepository {
     fun getProducts(categorySlug: String? = null): Flow<ResultWrapper<List<Product>>>
     fun createOrder(products: List<Cart>): Flow<ResultWrapper<Boolean>>

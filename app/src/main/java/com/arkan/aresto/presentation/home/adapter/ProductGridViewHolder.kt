@@ -2,6 +2,7 @@ package com.arkan.aresto.presentation.home.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.arkan.aresto.base.OnItemCLickedListener
 import com.arkan.aresto.base.ViewHolderBinder
 import com.arkan.aresto.data.model.Product
 import com.arkan.aresto.databinding.ItemProductGridBinding

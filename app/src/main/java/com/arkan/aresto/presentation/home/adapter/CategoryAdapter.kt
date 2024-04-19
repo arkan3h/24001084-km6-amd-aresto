@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.arkan.aresto.base.OnItemCLickedListener
 import com.arkan.aresto.data.model.Category
 import com.arkan.aresto.databinding.ItemCategoryBinding
 

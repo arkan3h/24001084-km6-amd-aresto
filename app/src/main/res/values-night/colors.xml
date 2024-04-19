@@ -143,4 +143,5 @@
 
     <color name="transparent">#00000000</color>
     <color name="gray_spacer">#20FFFFFF</color>
+    <color name="bg_outline">#60FFFFFF</color>
 </resources>

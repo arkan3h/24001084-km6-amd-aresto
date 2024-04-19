@@ -69,4 +69,10 @@
     <string name="text_logout_confirmation">Apakah anda yakin untuk logout?</string>
     <string name="text_back">Kembali</string>
     <string name="text_cancel">Batal</string>
+    <string name="text_change_password">Ubah Password</string>
+    <string name="text_save">Simpan</string>
+    <string name="text_edit_pofile_success">Berhasil merubah info profil</string>
+    <string name="text_edit_pofile_failed">Gagal merubah info profil!</string>
+    <string name="text_close">Tutup</string>
+    <string name="text_change_password_dialog">Permintaan penggantian password telah dikirimkan ke email : %s \nSilahkan periksa kotak masuk dan folder spam</string>
 </resources>

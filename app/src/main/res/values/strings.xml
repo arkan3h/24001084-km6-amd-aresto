@@ -75,4 +75,5 @@
     <string name="text_edit_pofile_failed">Gagal merubah info profil!</string>
     <string name="text_close">Tutup</string>
     <string name="text_change_password_dialog">Permintaan penggantian password telah dikirimkan ke email : %s \nSilahkan periksa kotak masuk dan folder spam</string>
+    <string name="error_checkout">Checkout gagal</string>
 </resources>

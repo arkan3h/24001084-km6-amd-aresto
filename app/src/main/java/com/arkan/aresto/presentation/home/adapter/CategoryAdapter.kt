@@ -9,7 +9,9 @@ import coil.load
 import com.arkan.aresto.data.model.Category
 import com.arkan.aresto.databinding.ItemCategoryBinding
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(){
+class CategoryAdapter(
+    private val listener: OnItemCLickedListener<Category>
+) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(){
     private val asyncDataDiffer = AsyncListDiffer(
         this, object : DiffUtil.ItemCallback<Category>() {
             override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
@@ -33,7 +35,7 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ), listener
         )
     }
 
@@ -44,11 +46,19 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
         holder.bind(asyncDataDiffer.currentList[position])
     }
 
-    class CategoryViewHolder(private val binding: ItemCategoryBinding) :
+    class CategoryViewHolder(
+        private val binding: ItemCategoryBinding,
+        private val listener: OnItemCLickedListener<Category>
+    ) :
         RecyclerView.ViewHolder(binding.root){
         fun bind(item: Category) {
-            binding.ivCategoryImage.load(item.imgUrl)
-            binding.tvCategoryName.text = item.name
+            item.let {
+                binding.ivCategoryImage.load(it.imgUrl)
+                binding.tvCategoryName.text = it.name
+                itemView.setOnClickListener {
+                    listener.onItemClicked(item)
+                }
+            }
         }
     }
 }

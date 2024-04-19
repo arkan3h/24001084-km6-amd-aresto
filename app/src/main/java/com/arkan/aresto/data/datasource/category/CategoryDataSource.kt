@@ -1,7 +1,7 @@
 package com.arkan.aresto.data.datasource.category
 
-import com.arkan.aresto.data.model.Category
+import com.arkan.aresto.data.source.network.model.category.CategoriesResponse
 
 interface CategoryDataSource {
-    fun getCategoryList() : List<Category>
+    suspend fun getCategoryList() : CategoriesResponse
 }

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Window
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,9 +17,14 @@ import androidx.core.view.isVisible
 import com.arkan.aresto.R
 import com.arkan.aresto.data.datasource.cart.CartDataSource
 import com.arkan.aresto.data.datasource.cart.CartDatabaseDataSource
+import com.arkan.aresto.data.datasource.product.ProductApiDataSource
+import com.arkan.aresto.data.datasource.product.ProductDataSource
 import com.arkan.aresto.data.repository.CartRepository
 import com.arkan.aresto.data.repository.CartRepositoryImpl
+import com.arkan.aresto.data.repository.ProductRepository
+import com.arkan.aresto.data.repository.ProductRepositoryImpl
 import com.arkan.aresto.data.source.local.database.AppDatabase
+import com.arkan.aresto.data.source.network.services.ArestoApiService
 import com.arkan.aresto.databinding.ActivityCheckoutBinding
 import com.arkan.aresto.presentation.checkout.adapter.CheckoutAdapter
 import com.arkan.aresto.presentation.checkout.adapter.PriceListAdapter
@@ -33,9 +39,12 @@ class CheckoutActivity : AppCompatActivity() {
     }
     private val viewModel: CheckoutViewModel by viewModels {
         val db = AppDatabase.getInstance(this)
+        val s = ArestoApiService.invoke()
+        val pds: ProductDataSource = ProductApiDataSource(s)
+        val pr: ProductRepository = ProductRepositoryImpl(pds)
         val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
         val rp: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(CheckoutViewModel(rp))
+        GenericViewModelFactory.create(CheckoutViewModel(rp, pr))
     }
     private val adapter: CheckoutAdapter by lazy {
         CheckoutAdapter()
@@ -63,8 +72,39 @@ class CheckoutActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         binding.layoutCheckout.btnCheckout.setOnClickListener {
-            orderSuccessDialog()
-            viewModel.removeCart()
+            doCheckout()
+        }
+    }
+
+    private fun doCheckout() {
+        viewModel.checkoutCart().observe(this){
+            it.proceedWhen(
+                doOnSuccess = {
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutState.tvError.isVisible = false
+                    binding.layoutContent.root.isVisible = true
+                    binding.layoutContent.rvCart.isVisible = true
+                    viewModel.removeCart()
+                    orderSuccessDialog()
+                },
+                doOnLoading = {
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = true
+                    binding.layoutState.tvError.isVisible = false
+                    binding.layoutContent.root.isVisible = false
+                    binding.layoutContent.rvCart.isVisible = false
+                },
+                doOnError = {
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.layoutContent.root.isVisible = false
+                    binding.layoutContent.rvCart.isVisible = false
+                    Toast.makeText(this,
+                        getString(R.string.error_checkout),
+                        Toast.LENGTH_SHORT).show()
+                }
+            )
         }
     }
 

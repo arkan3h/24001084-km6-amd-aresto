@@ -7,10 +7,6 @@ import com.arkan.aresto.utils.ResultWrapper
 import com.arkan.aresto.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow
 
-/**
-Written with love by Muhammad Hermas Yuda Pamungkas
-Github : https://github.com/hermasyp
- **/
 interface CategoryRepository {
     fun getCategories(): Flow<ResultWrapper<List<Category>>>
 }

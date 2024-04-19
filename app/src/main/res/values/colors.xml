@@ -146,4 +146,5 @@
 
     <color name="transparent">#00000000</color>
     <color name="gray_spacer">#20000000</color>
+    <color name="bg_outline">#60000000</color>
 </resources>

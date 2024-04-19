@@ -77,6 +77,7 @@ class ProfileFragment : Fragment() {
             binding.nameEditText.isEnabled = it
             binding.btnSave.isVisible = it
             binding.btnLogout.isVisible = !it
+            binding.llEdit.isVisible = !it
         }
     }
 

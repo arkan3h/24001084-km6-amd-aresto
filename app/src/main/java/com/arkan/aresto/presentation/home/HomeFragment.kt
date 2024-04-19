@@ -10,13 +10,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.arkan.aresto.R
+import com.arkan.aresto.base.OnItemCLickedListener
 import com.arkan.aresto.data.datasource.category.CategoryApiDataSource
 import com.arkan.aresto.data.datasource.category.CategoryDataSource
 import com.arkan.aresto.presentation.home.adapter.CategoryAdapter
-import com.arkan.aresto.presentation.home.adapter.OnItemCLickedListener
 import com.arkan.aresto.presentation.home.adapter.ProductAdapter
-//import com.arkan.aresto.data.datasource.category.DummyCategoryDataSource
-//import com.arkan.aresto.data.datasource.product.DummyProductDataSource
 import com.arkan.aresto.data.datasource.product.ProductApiDataSource
 import com.arkan.aresto.data.datasource.product.ProductDataSource
 import com.arkan.aresto.data.model.Category

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.arkan.aresto.base.OnItemCLickedListener
 import com.arkan.aresto.base.ViewHolderBinder
 import com.arkan.aresto.data.model.Product
 import com.arkan.aresto.databinding.ItemProductGridBinding
@@ -57,8 +58,4 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ViewHolderBinder<Product>).bind(asyncDataDiffer.currentList[position])
     }
-}
-
-interface OnItemCLickedListener<T> {
-    fun onItemClicked(item : T)
 }

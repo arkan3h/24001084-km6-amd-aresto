@@ -6,36 +6,55 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.arkan.aresto.R
+import com.arkan.aresto.data.datasource.category.CategoryApiDataSource
+import com.arkan.aresto.data.datasource.category.CategoryDataSource
 import com.arkan.aresto.presentation.home.adapter.CategoryAdapter
 import com.arkan.aresto.presentation.home.adapter.OnItemCLickedListener
 import com.arkan.aresto.presentation.home.adapter.ProductAdapter
-import com.arkan.aresto.data.datasource.category.DummyCategoryDataSource
-import com.arkan.aresto.data.datasource.product.DummyProductDataSource
+//import com.arkan.aresto.data.datasource.category.DummyCategoryDataSource
+//import com.arkan.aresto.data.datasource.product.DummyProductDataSource
+import com.arkan.aresto.data.datasource.product.ProductApiDataSource
+import com.arkan.aresto.data.datasource.product.ProductDataSource
 import com.arkan.aresto.data.model.Category
 import com.arkan.aresto.data.model.Product
 import com.arkan.aresto.data.repository.CategoryRepository
 import com.arkan.aresto.data.repository.CategoryRepositoryImpl
 import com.arkan.aresto.data.repository.ProductRepository
 import com.arkan.aresto.data.repository.ProductRepositoryImpl
+import com.arkan.aresto.data.source.network.services.ArestoApiService
 import com.arkan.aresto.databinding.FragmentHomeBinding
 import com.arkan.aresto.presentation.detailproduct.DetailProductActivity
 import com.arkan.aresto.utils.GenericViewModelFactory
+import com.arkan.aresto.utils.proceedWhen
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val categoryAdapter = CategoryAdapter()
-    private var adapter : ProductAdapter? = null
+    private var categoryAdapter : CategoryAdapter? = null
+    private var productAdapter : ProductAdapter? = null
     private var isUsingGridMode : Boolean = false
     private val viewModel: HomeViewModel by viewModels {
-        val productDataSource = DummyProductDataSource()
+        val service = ArestoApiService.invoke()
+        val productDataSource: ProductDataSource = ProductApiDataSource(service)
         val productRepository: ProductRepository = ProductRepositoryImpl(productDataSource)
-        val categoryDataSource = DummyCategoryDataSource()
+        val categoryDataSource: CategoryDataSource = CategoryApiDataSource(service)
         val categoryRepository: CategoryRepository = CategoryRepositoryImpl(categoryDataSource)
-        GenericViewModelFactory.create(HomeViewModel(categoryRepository, productRepository))
+        GenericViewModelFactory.create(
+            HomeViewModel(
+                categoryRepository,
+                productRepository
+            )
+        )
     }
+//    private val categoryAdapter: CategoryAdapter by lazy {
+//        CategoryAdapter {
+//            // when category clicked
+//            getProductData(it.slug, isUsingGridMode)
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,17 +66,24 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindProductList(isUsingGridMode, viewModel.getProduct())
+        getCategoryData()
+        getProductData(null, isUsingGridMode)
         setClickAction()
-        bindCategoryList(viewModel.getCategory())
     }
 
     private fun setClickAction() {
         binding.layoutListMenu.ivListMenu.setOnClickListener {
             isUsingGridMode = !isUsingGridMode
             setButtonImage(isUsingGridMode)
-            bindProductList(isUsingGridMode, viewModel.getProduct())
+            getProductData(null, isUsingGridMode)
         }
+        categoryAdapter = CategoryAdapter(
+            listener = object : OnItemCLickedListener<Category> {
+                override fun onItemClicked(item: Category) {
+                    getProductData(item.name, isUsingGridMode)
+                }
+            }
+        )
     }
 
     private fun setButtonImage(usingGridMode: Boolean) {
@@ -67,12 +93,58 @@ class HomeFragment : Fragment() {
             R.drawable.ic_list_grid)
     }
 
+    private fun getCategoryData() {
+        viewModel.getCategory().observe(viewLifecycleOwner) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    it.payload?.let { data ->
+                        bindCategoryList(data)
+                    }
+                    binding.pbLoadingCategory.isVisible = false
+                    binding.tvErrorCategory.isVisible = false
+                },
+                doOnLoading = {
+                    binding.pbLoadingCategory.isVisible = true
+                    binding.tvErrorCategory.isVisible = false
+                },
+                doOnError = {
+                    binding.tvErrorCategory.isVisible = true
+                    binding.pbLoadingCategory.isVisible = false
+                    binding.tvErrorCategory.text = it.exception?.message.orEmpty()
+                }
+            )
+        }
+    }
+
+    private fun getProductData(categorySlug: String?, isUsingGrid: Boolean) {
+        viewModel.getProduct(categorySlug).observe(viewLifecycleOwner) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    it.payload?.let { data ->
+                        bindProductList(isUsingGrid, data)
+                    }
+                    binding.pbLoadingProduct.isVisible = false
+                    binding.tvErrorProduct.isVisible = false
+                },
+                doOnLoading = {
+                    binding.pbLoadingProduct.isVisible = true
+                    binding.tvErrorProduct.isVisible = false
+                },
+                doOnError = {
+                    binding.tvErrorProduct.isVisible = true
+                    binding.pbLoadingProduct.isVisible = false
+                    binding.tvErrorProduct.text = it.exception?.message.orEmpty()
+                }
+            )
+        }
+    }
+
     private fun bindProductList(isUsingGrid: Boolean, data: List<Product>) {
         val listMode = if (isUsingGrid)
             ProductAdapter.MODE_GRID
         else
             ProductAdapter.MODE_LIST
-        adapter = ProductAdapter(
+        productAdapter = ProductAdapter(
             listMode = listMode,
             listener = object : OnItemCLickedListener<Product> {
                 override fun onItemClicked(item: Product) {
@@ -81,20 +153,20 @@ class HomeFragment : Fragment() {
             }
         )
         binding.rvProduct.apply {
-            adapter = this@HomeFragment.adapter
+            adapter = this@HomeFragment.productAdapter
             layoutManager = GridLayoutManager(requireContext(), if (isUsingGrid)
                 2
             else
                 1)
         }
-        adapter?.submitData(data)
+        productAdapter?.submitData(data)
     }
 
     private fun bindCategoryList(data: List<Category>) {
         binding.rvCategory.apply {
             adapter = this@HomeFragment.categoryAdapter
         }
-        categoryAdapter.submitData(data)
+        categoryAdapter?.submitData(data)
     }
 
     private fun startActivity(item: Product) {

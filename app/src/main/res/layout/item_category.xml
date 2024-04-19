@@ -16,7 +16,7 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_category_image"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             app:shapeAppearanceOverlay="@style/image_rounded_small"

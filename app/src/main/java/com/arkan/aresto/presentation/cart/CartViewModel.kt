@@ -5,12 +5,14 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.arkan.aresto.data.model.Cart
 import com.arkan.aresto.data.repository.CartRepository
+import com.arkan.aresto.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class CartViewModel(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     fun getAllCart() = cartRepository.getUserCartData().asLiveData(Dispatchers.IO)
     fun decreaseCart(item : Cart) {
@@ -33,4 +35,6 @@ class CartViewModel(
             cartRepository.setCartNotes(item).collect()
         }
     }
+
+    fun isUserLoggedIn() = userRepository.isLoggedIn()
 }

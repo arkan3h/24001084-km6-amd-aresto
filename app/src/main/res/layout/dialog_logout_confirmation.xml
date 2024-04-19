@@ -9,31 +9,44 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="300dp"
-        android:layout_height="160dp">
+        android:layout_height="160dp"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tv_title_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/text_title_order_success"
+            android:text="@string/text_logout_confirmation"
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btn_back_to_home"/>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
-            android:id="@+id/btn_back_to_home"
-            android:layout_width="match_parent"
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_margin="16dp"
-            android:text="@string/text_back_to_home"
+            android:text="@string/text_cancel"
+            android:textSize="16sp"
+            android:backgroundTint="@color/transparent"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/md_theme_inversePrimary"
+            android:textColor="@color/md_theme_onBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_logout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="@string/text_logout"
             android:textSize="16sp"
             android:backgroundTint="@color/md_theme_inversePrimary"
             android:textColor="@color/md_theme_onBackground"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

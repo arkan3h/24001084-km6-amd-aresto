@@ -9,16 +9,23 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.arkan.aresto.R
+import com.arkan.aresto.data.datasource.auth.AuthDataSource
+import com.arkan.aresto.data.datasource.auth.FirebaseAuthDataSource
 import com.arkan.aresto.data.datasource.cart.CartDataSource
 import com.arkan.aresto.data.datasource.cart.CartDatabaseDataSource
 import com.arkan.aresto.data.model.Cart
 import com.arkan.aresto.data.repository.CartRepository
 import com.arkan.aresto.data.repository.CartRepositoryImpl
+import com.arkan.aresto.data.repository.UserRepository
+import com.arkan.aresto.data.repository.UserRepositoryImpl
+import com.arkan.aresto.data.source.firebase.FirebaseService
+import com.arkan.aresto.data.source.firebase.FirebaseServiceImpl
 import com.arkan.aresto.data.source.local.database.AppDatabase
 import com.arkan.aresto.databinding.FragmentCartBinding
 import com.arkan.aresto.presentation.cart.adapter.CartAdapter
 import com.arkan.aresto.presentation.cart.adapter.CartListener
 import com.arkan.aresto.presentation.checkout.CheckoutActivity
+import com.arkan.aresto.presentation.login.LoginActivity
 import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.hideKeyboard
 import com.arkan.aresto.utils.proceedWhen
@@ -30,7 +37,10 @@ class CartFragment : Fragment() {
         val db = AppDatabase.getInstance(requireContext())
         val ds : CartDataSource = CartDatabaseDataSource(db.cartDao())
         val rp : CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(CartViewModel(rp))
+        val us: FirebaseService = FirebaseServiceImpl()
+        val uds: AuthDataSource = FirebaseAuthDataSource(us)
+        val urp: UserRepository = UserRepositoryImpl(uds)
+        GenericViewModelFactory.create(CartViewModel(rp, urp))
     }
     private val adapter : CartAdapter by lazy {
         CartAdapter(
@@ -72,7 +82,7 @@ class CartFragment : Fragment() {
 
     private fun setClickListener() {
         binding.layoutCheckout.btnCheckout.setOnClickListener {
-            startActivity(Intent(requireContext(), CheckoutActivity::class.java))
+            checkIfUserLogin()
         }
     }
 
@@ -121,5 +131,17 @@ class CartFragment : Fragment() {
 
     private fun setupList() {
         binding.rvCart.adapter = this@CartFragment.adapter
+    }
+
+    private fun checkIfUserLogin() {
+        if (viewModel.isUserLoggedIn()) {
+            startActivity(Intent(requireContext(), CheckoutActivity::class.java))
+        } else {
+            navigateToLogin()
+        }
+    }
+
+    private fun navigateToLogin() {
+        startActivity(Intent(requireContext(), LoginActivity::class.java))
     }
 }

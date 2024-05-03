@@ -5,22 +5,17 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import coil.load
 import com.arkan.aresto.R
-import com.arkan.aresto.data.datasource.cart.CartDataSource
-import com.arkan.aresto.data.datasource.cart.CartDatabaseDataSource
 import com.arkan.aresto.data.model.Product
-import com.arkan.aresto.data.repository.CartRepository
-import com.arkan.aresto.data.repository.CartRepositoryImpl
-import com.arkan.aresto.data.source.local.database.AppDatabase
 import com.arkan.aresto.databinding.ActivityDetailProductBinding
-import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.proceedWhen
 import com.arkan.aresto.utils.toIndonesianFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DetailProductActivity : AppCompatActivity() {
     companion object {
@@ -30,14 +25,11 @@ class DetailProductActivity : AppCompatActivity() {
     private val binding: ActivityDetailProductBinding by lazy {
         ActivityDetailProductBinding.inflate(layoutInflater)
     }
-    private val viewModel: DetailProductViewModel by viewModels {
-        val db = AppDatabase.getInstance(this)
-        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val rp: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(
-            DetailProductViewModel(intent?.extras, rp)
-        )
+
+    private val viewModel: DetailProductViewModel by viewModel {
+        parametersOf(intent.extras)
     }
+
     private lateinit var url: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +84,7 @@ class DetailProductActivity : AppCompatActivity() {
                 },
                 doOnError = {
                     Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT).show()
-                }
+                },
             )
         }
     }
@@ -107,10 +99,11 @@ class DetailProductActivity : AppCompatActivity() {
 
     private fun setAddToCartData() {
         viewModel.totalPrice.observe(this) {
-            binding.layoutAddToCart.btnAddToCart.text = getString(
-                R.string.add_to_cart,
-                it.toIndonesianFormat()
-            )
+            binding.layoutAddToCart.btnAddToCart.text =
+                getString(
+                    R.string.add_to_cart,
+                    it.toIndonesianFormat(),
+                )
         }
         viewModel.productQty.observe(this) {
             binding.layoutAddToCart.tvQtyProduct.text = it.toString()

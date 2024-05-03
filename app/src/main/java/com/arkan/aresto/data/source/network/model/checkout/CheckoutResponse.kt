@@ -8,5 +8,5 @@ data class CheckoutResponse(
     @SerializedName("message")
     val message: String?,
     @SerializedName("status")
-    val status: Boolean?
+    val status: Boolean?,
 )

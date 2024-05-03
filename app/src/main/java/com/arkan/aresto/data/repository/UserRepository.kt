@@ -1,42 +1,60 @@
 package com.arkan.aresto.data.repository
 
 import com.arkan.aresto.data.datasource.auth.AuthDataSource
+import com.arkan.aresto.data.datasource.user.UserDataSource
 import com.arkan.aresto.data.model.User
 import com.arkan.aresto.utils.ResultWrapper
 import com.arkan.aresto.utils.proceedFlow
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
+    fun isUsingGrid(): Boolean
+
+    fun setUsingGridMode(isUsingGrid: Boolean)
+
     @Throws(exceptionClasses = [Exception::class])
     fun doLogin(
-        email : String,
-        password : String
-    ) : Flow<ResultWrapper<Boolean>>
+        email: String,
+        password: String,
+    ): Flow<ResultWrapper<Boolean>>
+
     @Throws(exceptionClasses = [Exception::class])
     fun doRegister(
-        email : String,
-        fullName : String,
-        password : String
-    ) : Flow<ResultWrapper<Boolean>>
-    fun updateProfile(
-        fullName : String? = null
-    ) : Flow<ResultWrapper<Boolean>>
-    fun updatePassword(
-        newPassword : String
-    ) : Flow<ResultWrapper<Boolean>>
-    fun updateEmail(
-        newEmail : String
-    ) : Flow<ResultWrapper<Boolean>>
-    fun requestChangePasswordByEmail() : Boolean
-    fun doLogout() : Boolean
-    fun isLoggedIn() : Boolean
-    fun getCurrentUser() : User?
+        email: String,
+        fullName: String,
+        password: String,
+    ): Flow<ResultWrapper<Boolean>>
+
+    fun updateProfile(fullName: String? = null): Flow<ResultWrapper<Boolean>>
+
+    fun updatePassword(newPassword: String): Flow<ResultWrapper<Boolean>>
+
+    fun updateEmail(newEmail: String): Flow<ResultWrapper<Boolean>>
+
+    fun requestChangePasswordByEmail(): Boolean
+
+    fun doLogout(): Boolean
+
+    fun isLoggedIn(): Boolean
+
+    fun getCurrentUser(): User?
 }
 
-class UserRepositoryImpl(private val dataSource: AuthDataSource) : UserRepository {
+class UserRepositoryImpl(
+    private val pref: UserDataSource,
+    private val dataSource: AuthDataSource,
+) : UserRepository {
+    override fun isUsingGrid(): Boolean {
+        return pref.isUsingGrid()
+    }
+
+    override fun setUsingGridMode(isUsingGrid: Boolean) {
+        pref.setUsingGridMode(isUsingGrid)
+    }
+
     override fun doLogin(
         email: String,
-        password: String
+        password: String,
     ): Flow<ResultWrapper<Boolean>> {
         return proceedFlow {
             dataSource.doLogin(email, password)
@@ -46,32 +64,26 @@ class UserRepositoryImpl(private val dataSource: AuthDataSource) : UserRepositor
     override fun doRegister(
         email: String,
         fullName: String,
-        password: String
+        password: String,
     ): Flow<ResultWrapper<Boolean>> {
         return proceedFlow {
             dataSource.doRegister(email, fullName, password)
         }
     }
 
-    override fun updateProfile(
-        fullName: String?
-    ): Flow<ResultWrapper<Boolean>> {
+    override fun updateProfile(fullName: String?): Flow<ResultWrapper<Boolean>> {
         return proceedFlow {
             dataSource.updateProfile(fullName)
         }
     }
 
-    override fun updatePassword(
-        newPassword: String
-    ): Flow<ResultWrapper<Boolean>> {
+    override fun updatePassword(newPassword: String): Flow<ResultWrapper<Boolean>> {
         return proceedFlow {
             dataSource.updatePassword(newPassword)
         }
     }
 
-    override fun updateEmail(
-        newEmail: String
-    ): Flow<ResultWrapper<Boolean>> {
+    override fun updateEmail(newEmail: String): Flow<ResultWrapper<Boolean>> {
         return proceedFlow {
             dataSource.updateEmail(newEmail)
         }

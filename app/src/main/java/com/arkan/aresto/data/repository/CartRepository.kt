@@ -18,22 +18,27 @@ import java.lang.IllegalStateException
 
 interface CartRepository {
     fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>>
+
     fun getCheckoutData(): Flow<ResultWrapper<Triple<List<Cart>, List<ProductPrice>, Double>>>
+
     fun createCart(
         product: Product,
         quantity: Int,
-        notes: String? = null
+        notes: String? = null,
     ): Flow<ResultWrapper<Boolean>>
 
     fun decreaseCart(item: Cart): Flow<ResultWrapper<Boolean>>
+
     fun increaseCart(item: Cart): Flow<ResultWrapper<Boolean>>
+
     fun setCartNotes(item: Cart): Flow<ResultWrapper<Boolean>>
+
     fun deleteCart(item: Cart): Flow<ResultWrapper<Boolean>>
+
     suspend fun deleteAllCart()
 }
 
 class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepository {
-
     override fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>> {
         return cartDataSource.getAllCarts()
             .map {
@@ -70,20 +75,21 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
     override fun createCart(
         product: Product,
         quantity: Int,
-        notes: String?
+        notes: String?,
     ): Flow<ResultWrapper<Boolean>> {
         return product.id?.let { productId ->
             proceedFlow {
-                val affectedRow = cartDataSource.insertCart(
-                    CartEntity(
-                        productId = productId,
-                        productQty = quantity,
-                        productName = product.name,
-                        productImgUrl = product.imgUrl,
-                        productPrice = product.price,
-                        productNotes = notes
+                val affectedRow =
+                    cartDataSource.insertCart(
+                        CartEntity(
+                            productId = productId,
+                            productQty = quantity,
+                            productName = product.name,
+                            productImgUrl = product.imgUrl,
+                            productPrice = product.price,
+                            productNotes = notes,
+                        ),
                     )
-                )
                 affectedRow > 0
             }
         } ?: flow {
@@ -92,9 +98,10 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
     }
 
     override fun decreaseCart(item: Cart): Flow<ResultWrapper<Boolean>> {
-        val modifiedCart = item.copy().apply {
-            productQty -= 1
-        }
+        val modifiedCart =
+            item.copy().apply {
+                productQty -= 1
+            }
         return if (modifiedCart.productQty <= 0) {
             proceedFlow { cartDataSource.deleteCart(item.toCartEntity()) > 0 }
         } else {
@@ -103,9 +110,10 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
     }
 
     override fun increaseCart(item: Cart): Flow<ResultWrapper<Boolean>> {
-        val modifiedCart = item.copy().apply {
-            productQty += 1
-        }
+        val modifiedCart =
+            item.copy().apply {
+                productQty += 1
+            }
         return proceedFlow { cartDataSource.updateCart(modifiedCart.toCartEntity()) > 0 }
     }
 
@@ -117,7 +125,7 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
         return proceedFlow { cartDataSource.deleteCart(item.toCartEntity()) > 0 }
     }
 
-    override suspend fun deleteAllCart(){
+    override suspend fun deleteAllCart() {
         return cartDataSource.deleteAll()
     }
 }

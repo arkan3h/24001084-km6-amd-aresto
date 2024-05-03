@@ -11,47 +11,61 @@ import com.arkan.aresto.data.model.Category
 import com.arkan.aresto.databinding.ItemCategoryBinding
 
 class CategoryAdapter(
-    private val listener: OnItemCLickedListener<Category>
-) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(){
-    private val asyncDataDiffer = AsyncListDiffer(
-        this, object : DiffUtil.ItemCallback<Category>() {
-            override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
-                return oldItem.name == newItem.name
-            }
+    private val listener: OnItemCLickedListener<Category>,
+) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+    private val asyncDataDiffer =
+        AsyncListDiffer(
+            this,
+            object : DiffUtil.ItemCallback<Category>() {
+                override fun areItemsTheSame(
+                    oldItem: Category,
+                    newItem: Category,
+                ): Boolean {
+                    return oldItem.name == newItem.name
+                }
 
-            override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
-                return oldItem.hashCode() == newItem.hashCode()
-            }
-
-        }
-    )
+                override fun areContentsTheSame(
+                    oldItem: Category,
+                    newItem: Category,
+                ): Boolean {
+                    return oldItem.hashCode() == newItem.hashCode()
+                }
+            },
+        )
 
     fun submitData(items: List<Category>) {
         asyncDataDiffer.submitList(items)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): CategoryViewHolder {
         return CategoryViewHolder(
             ItemCategoryBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
-            ), listener
+                false,
+            ),
+            listener,
         )
     }
 
-    //counting data size
-    override fun getItemCount(): Int  = asyncDataDiffer.currentList.size
+    // counting data size
+    override fun getItemCount(): Int = asyncDataDiffer.currentList.size
 
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: CategoryViewHolder,
+        position: Int,
+    ) {
         holder.bind(asyncDataDiffer.currentList[position])
     }
 
     class CategoryViewHolder(
         private val binding: ItemCategoryBinding,
-        private val listener: OnItemCLickedListener<Category>
+        private val listener: OnItemCLickedListener<Category>,
     ) :
-        RecyclerView.ViewHolder(binding.root){
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Category) {
             item.let {
                 binding.ivCategoryImage.load(it.imgUrl)

@@ -1,11 +1,18 @@
 package com.arkan.aresto
 
 import android.app.Application
-import com.arkan.aresto.data.source.local.database.AppDatabase
+import com.arkan.aresto.di.AppModules
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.GlobalContext
 
-class App : Application(){
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        AppDatabase.getInstance(this)
+        GlobalContext.startKoin {
+            androidLogger()
+            androidContext(this@App)
+            modules(AppModules.modules)
+        }
     }
 }

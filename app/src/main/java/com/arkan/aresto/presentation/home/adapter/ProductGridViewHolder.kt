@@ -10,8 +10,8 @@ import com.arkan.aresto.utils.toIndonesianFormat
 
 class ProductGridViewHolder(
     private val binding: ItemProductGridBinding,
-    private val listener: OnItemCLickedListener<Product>
-) : RecyclerView.ViewHolder(binding.root), ViewHolderBinder<Product>{
+    private val listener: OnItemCLickedListener<Product>,
+) : RecyclerView.ViewHolder(binding.root), ViewHolderBinder<Product> {
     override fun bind(item: Product) {
         item.let {
             binding.ivProductImage.load(it.imgUrl)

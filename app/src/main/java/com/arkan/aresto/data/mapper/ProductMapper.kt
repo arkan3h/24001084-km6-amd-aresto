@@ -10,9 +10,10 @@ fun ProductItemResponse?.toProduct() =
         imgUrl = this?.imgUrl.orEmpty(),
         desc = this?.desc.orEmpty(),
         address = this?.address.orEmpty(),
-        addressUrl = "https://maps.app.goo.gl/h4wQKqaBuXzftGK77"
+        addressUrl = "https://maps.app.goo.gl/h4wQKqaBuXzftGK77",
     )
 
-fun Collection<ProductItemResponse>?.toProducts() = this?.map {
-    it.toProduct()
-} ?: listOf()
+fun Collection<ProductItemResponse>?.toProducts() =
+    this?.map {
+        it.toProduct()
+    } ?: listOf()

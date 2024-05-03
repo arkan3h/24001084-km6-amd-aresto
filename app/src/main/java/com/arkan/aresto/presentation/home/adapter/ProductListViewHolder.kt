@@ -10,7 +10,7 @@ import com.arkan.aresto.utils.toIndonesianFormat
 
 class ProductListViewHolder(
     private val binding: ItemProductListBinding,
-    private val listener: OnItemCLickedListener<Product>
+    private val listener: OnItemCLickedListener<Product>,
 ) : RecyclerView.ViewHolder(binding.root), ViewHolderBinder<Product> {
     override fun bind(item: Product) {
         item.let {

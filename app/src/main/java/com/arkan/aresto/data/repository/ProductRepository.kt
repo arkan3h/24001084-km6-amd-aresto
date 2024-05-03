@@ -12,11 +12,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
     fun getProducts(categorySlug: String? = null): Flow<ResultWrapper<List<Product>>>
+
     fun createOrder(products: List<Cart>): Flow<ResultWrapper<Boolean>>
 }
 
 class ProductRepositoryImpl(
-    private val dataSource: ProductDataSource
+    private val dataSource: ProductDataSource,
 ) : ProductRepository {
     override fun getProducts(categorySlug: String?): Flow<ResultWrapper<List<Product>>> {
         return proceedFlow {
@@ -26,15 +27,18 @@ class ProductRepositoryImpl(
 
     override fun createOrder(products: List<Cart>): Flow<ResultWrapper<Boolean>> {
         return proceedFlow {
-            dataSource.createOrder(CheckoutRequestPayload(
-                orders = products.map {
-                    CheckoutItemPayload(
-                        notes = it.productNotes,
-                        name = it.productName,
-                        quantity = it.productQty
-                    )
-                }
-            )).status ?: false
+            dataSource.createOrder(
+                CheckoutRequestPayload(
+                    orders =
+                        products.map {
+                            CheckoutItemPayload(
+                                notes = it.productNotes,
+                                name = it.productName,
+                                quantity = it.productQty,
+                            )
+                        },
+                ),
+            ).status ?: false
         }
     }
 }

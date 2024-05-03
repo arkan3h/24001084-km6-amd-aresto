@@ -13,16 +13,18 @@ import kotlinx.coroutines.Dispatchers
 import java.lang.IllegalStateException
 
 class DetailProductViewModel(
-    private val extras: Bundle?,
-    private val cartRepository: CartRepository
+    extras: Bundle?,
+    private val cartRepository: CartRepository,
 ) : ViewModel() {
     val product = extras?.getParcelable<Product>(DetailProductActivity.EXTRAS_ITEM_ACT)
-    val productQty = MutableLiveData(1).apply {
-        postValue(1)
-    }
-    var totalPrice = MutableLiveData<Double>().apply {
-        postValue(product?.price)
-    }
+    val productQty =
+        MutableLiveData(1).apply {
+            postValue(1)
+        }
+    var totalPrice =
+        MutableLiveData<Double>().apply {
+            postValue(product?.price)
+        }
 
     fun addQtyProduct() {
         val count = (productQty.value ?: 0) + 1
@@ -35,7 +37,9 @@ class DetailProductViewModel(
             val count = (productQty.value ?: 0) - 1
             productQty.postValue(count)
             totalPrice.postValue(product?.price?.times(count) ?: 0.0)
-        } else productQty.postValue(1)
+        } else {
+            productQty.postValue(1)
+        }
     }
 
     fun addToCart(): LiveData<ResultWrapper<Boolean>> {

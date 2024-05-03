@@ -12,25 +12,29 @@ import kotlinx.coroutines.launch
 
 class CartViewModel(
     private val cartRepository: CartRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : ViewModel() {
     fun getAllCart() = cartRepository.getUserCartData().asLiveData(Dispatchers.IO)
-    fun decreaseCart(item : Cart) {
+
+    fun decreaseCart(item: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepository.decreaseCart(item).collect()
         }
     }
-    fun increaseCart(item : Cart) {
+
+    fun increaseCart(item: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepository.increaseCart(item).collect()
         }
     }
-    fun removeCart(item : Cart) {
+
+    fun removeCart(item: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepository.deleteCart(item).collect()
         }
     }
-    fun setCartNotes(item : Cart) {
+
+    fun setCartNotes(item: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepository.setCartNotes(item).collect()
         }

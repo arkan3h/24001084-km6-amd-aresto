@@ -2,47 +2,27 @@ package com.arkan.aresto.presentation.cart
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
 import com.arkan.aresto.R
-import com.arkan.aresto.data.datasource.auth.AuthDataSource
-import com.arkan.aresto.data.datasource.auth.FirebaseAuthDataSource
-import com.arkan.aresto.data.datasource.cart.CartDataSource
-import com.arkan.aresto.data.datasource.cart.CartDatabaseDataSource
 import com.arkan.aresto.data.model.Cart
-import com.arkan.aresto.data.repository.CartRepository
-import com.arkan.aresto.data.repository.CartRepositoryImpl
-import com.arkan.aresto.data.repository.UserRepository
-import com.arkan.aresto.data.repository.UserRepositoryImpl
-import com.arkan.aresto.data.source.firebase.FirebaseService
-import com.arkan.aresto.data.source.firebase.FirebaseServiceImpl
-import com.arkan.aresto.data.source.local.database.AppDatabase
 import com.arkan.aresto.databinding.FragmentCartBinding
 import com.arkan.aresto.presentation.cart.adapter.CartAdapter
 import com.arkan.aresto.presentation.cart.adapter.CartListener
 import com.arkan.aresto.presentation.checkout.CheckoutActivity
 import com.arkan.aresto.presentation.login.LoginActivity
-import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.hideKeyboard
 import com.arkan.aresto.utils.proceedWhen
 import com.arkan.aresto.utils.toIndonesianFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
-    private val viewModel : CartViewModel by viewModels {
-        val db = AppDatabase.getInstance(requireContext())
-        val ds : CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val rp : CartRepository = CartRepositoryImpl(ds)
-        val us: FirebaseService = FirebaseServiceImpl()
-        val uds: AuthDataSource = FirebaseAuthDataSource(us)
-        val urp: UserRepository = UserRepositoryImpl(uds)
-        GenericViewModelFactory.create(CartViewModel(rp, urp))
-    }
-    private val adapter : CartAdapter by lazy {
+    private val viewModel: CartViewModel by viewModel()
+    private val adapter: CartAdapter by lazy {
         CartAdapter(
             object : CartListener {
                 override fun onPlusTotalItemCartClicked(cart: Cart) {
@@ -61,19 +41,23 @@ class CartFragment : Fragment() {
                     viewModel.setCartNotes(cart)
                     hideKeyboard()
                 }
-            }
+            },
         )
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentCartBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         setupList()
         observeData()
@@ -121,7 +105,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.tvError.text = getString(R.string.text_cart_is_empty)
                     binding.rvCart.isVisible = false
                     binding.layoutCheckout.btnCheckout.isEnabled = false
-                    result.payload?.let { (carts, totalPrice) ->
+                    result.payload?.let { (_, totalPrice) ->
                         binding.layoutCheckout.tvTotalPrice.text = totalPrice.toIndonesianFormat()
                     }
                 },

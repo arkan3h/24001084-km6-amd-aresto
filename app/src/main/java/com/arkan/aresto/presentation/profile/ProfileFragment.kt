@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,39 +13,32 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
 import com.arkan.aresto.R
-import com.arkan.aresto.data.datasource.auth.AuthDataSource
-import com.arkan.aresto.data.datasource.auth.FirebaseAuthDataSource
-import com.arkan.aresto.data.repository.UserRepository
-import com.arkan.aresto.data.repository.UserRepositoryImpl
-import com.arkan.aresto.data.source.firebase.FirebaseService
-import com.arkan.aresto.data.source.firebase.FirebaseServiceImpl
 import com.arkan.aresto.databinding.FragmentProfileBinding
 import com.arkan.aresto.presentation.login.LoginActivity
 import com.arkan.aresto.presentation.main.MainActivity
-import com.arkan.aresto.utils.GenericViewModelFactory
 import com.arkan.aresto.utils.proceedWhen
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
 
-    private val viewModel: ProfileViewModel by viewModels {
-        val s: FirebaseService = FirebaseServiceImpl()
-        val ds: AuthDataSource = FirebaseAuthDataSource(s)
-        val rp: UserRepository = UserRepositoryImpl(ds)
-        GenericViewModelFactory.create(ProfileViewModel(rp))
-    }
+    private val viewModel: ProfileViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         setupProfileState()
         setClickListener()
@@ -110,7 +102,7 @@ class ProfileFragment : Fragment() {
                 doOnLoading = {
                     binding.pbLoading.isVisible = true
                     binding.btnSave.isVisible = false
-                }
+                },
             )
         }
     }
@@ -170,10 +162,11 @@ class ProfileFragment : Fragment() {
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_change_password_request)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.findViewById<TextView?>(R.id.tv_title_password_dialog).text = getString(
-            R.string.text_change_password_dialog,
-            viewModel.getCurrentUser()?.email
-        )
+        dialog.findViewById<TextView?>(R.id.tv_title_password_dialog).text =
+            getString(
+                R.string.text_change_password_dialog,
+                viewModel.getCurrentUser()?.email,
+            )
         viewModel.createChangePwdRequest()
         val backBtn: Button = dialog.findViewById(R.id.btn_back)
         backBtn.setOnClickListener {
@@ -183,9 +176,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun backToHome() {
-        startActivity(Intent(requireContext(), MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        })
+        startActivity(
+            Intent(requireContext(), MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            },
+        )
     }
 
     private fun navigateToLogin() {

@@ -6,7 +6,7 @@ import com.arkan.aresto.data.source.network.model.product.ProductResponse
 import com.arkan.aresto.data.source.network.services.ArestoApiService
 
 class ProductApiDataSource(
-    private val service: ArestoApiService
+    private val service: ArestoApiService,
 ) : ProductDataSource {
     override suspend fun getProductList(categorySlug: String?): ProductResponse {
         return service.getProducts(categorySlug)

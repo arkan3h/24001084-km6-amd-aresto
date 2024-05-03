@@ -10,7 +10,7 @@ import com.arkan.aresto.utils.toIndonesianFormat
 
 class CartViewHolder(
     private val binding: ItemCartProductBinding,
-    private val cartListener: CartListener?
+    private val cartListener: CartListener?,
 ) : RecyclerView.ViewHolder(binding.root), ViewHolderBinder<Cart> {
     override fun bind(item: Cart) {
         setCartData(item)
@@ -33,9 +33,10 @@ class CartViewHolder(
         binding.etNotesItem.setText(item.productNotes)
         binding.etNotesItem.doneEditing {
             binding.etNotesItem.clearFocus()
-            val newItem = item.copy().apply {
-                productNotes = binding.etNotesItem.text.toString().trim()
-            }
+            val newItem =
+                item.copy().apply {
+                    productNotes = binding.etNotesItem.text.toString().trim()
+                }
             cartListener?.onUserDoneEditingNotes(newItem)
         }
     }

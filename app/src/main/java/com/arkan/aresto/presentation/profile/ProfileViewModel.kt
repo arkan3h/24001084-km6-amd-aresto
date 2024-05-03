@@ -7,7 +7,6 @@ import com.arkan.aresto.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 
 class ProfileViewModel(private val repo: UserRepository) : ViewModel() {
-
     val isEditMode = MutableLiveData(false)
 
     fun changeEditMode() {

@@ -19,10 +19,11 @@ class CheckoutViewHolder(
     private fun setCartData(item: Cart) {
         with(binding) {
             ivProductImage.load(item.productImgUrl)
-            tvQuantityProduct.text = itemView.rootView.context.getString(
-                R.string.total_quantity,
-                item.productQty.toString()
-            )
+            tvQuantityProduct.text =
+                itemView.rootView.context.getString(
+                    R.string.total_quantity,
+                    item.productQty.toString(),
+                )
             tvProductName.text = item.productName
             tvProductPrice.text = (item.productQty * item.productPrice).toIndonesianFormat()
         }

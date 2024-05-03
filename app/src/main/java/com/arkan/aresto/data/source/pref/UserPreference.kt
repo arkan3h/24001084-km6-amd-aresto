@@ -1,18 +1,17 @@
-package com.arkan.aresto.utils
+package com.arkan.aresto.data.source.pref
 
-import android.content.Context
+import android.content.SharedPreferences
 import com.arkan.aresto.utils.SharedPreferenceUtils.set
 
 interface UserPreference {
     fun isUsingGrid(): Boolean
+
     fun setUsingGridMode(isUsingGrid: Boolean)
 }
 
 class UserPreferenceImpl(
-    private val context: Context
+    private val pref: SharedPreferences,
 ) : UserPreference {
-    private val pref = SharedPreferenceUtils.createPreference(context, PREF_NAME)
-
     override fun isUsingGrid(): Boolean = pref.getBoolean(KEY_IS_USING_GRID, false)
 
     override fun setUsingGridMode(isUsingGrid: Boolean) {

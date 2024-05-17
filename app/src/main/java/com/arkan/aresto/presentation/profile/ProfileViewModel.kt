@@ -18,13 +18,9 @@ class ProfileViewModel(private val repo: UserRepository) : ViewModel() {
 
     fun updateProfile(fullName: String) = repo.updateProfile(fullName).asLiveData(Dispatchers.IO)
 
-    fun createChangePwdRequest() {
-        repo.requestChangePasswordByEmail()
-    }
+    fun createChangePwdRequest() = repo.requestChangePasswordByEmail()
 
     fun isUserLoggedIn() = repo.isLoggedIn()
 
-    fun doLogout() {
-        repo.doLogout()
-    }
+    fun doLogout() = repo.doLogout()
 }
